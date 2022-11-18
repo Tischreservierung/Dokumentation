@@ -15,7 +15,7 @@ export class AppComponent {
     }, error => console.error(error));
   }
 
-  title = 'Tischreservierung_FrontEnd';
+  title = 'FrontEnd';
 }
 
 interface WeatherForecast {
