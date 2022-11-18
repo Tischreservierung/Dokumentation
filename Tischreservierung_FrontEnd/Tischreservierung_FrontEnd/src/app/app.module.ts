@@ -3,7 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { RestaurantRegistrationComponent } from './restaurant-registration/restaurant-registration.component';
-import {  } from '@angular/material';
+
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule} from '@angular/material/input'
+import { MatIconModule} from '@angular/material/icon'
+import { MatSelectModule} from '@angular/material/select'
+import { MatGridListModule} from '@angular/material/grid-list'
+import { FormsModule, ReactiveFormsModule} from '@angular/forms'
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations'
 
 @NgModule({
   declarations: [
@@ -12,9 +19,14 @@ import {  } from '@angular/material';
   ],
   imports: [
     BrowserModule,
-  ],
-  exports: [
-    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatSelectModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
