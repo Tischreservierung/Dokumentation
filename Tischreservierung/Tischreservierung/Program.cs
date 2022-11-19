@@ -1,4 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Tischreservierung.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<OnlineReservationContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("TischreservierungContext") ?? throw new InvalidOperationException("Connection string 'TischreservierungContext' not found.")));
 
 // Add services to the container.
 
