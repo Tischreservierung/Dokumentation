@@ -8,8 +8,13 @@ namespace Tischreservierung.Models
     {
         public int Id { get; set; }
         [Required]
-        [StringLength(255)]
         public string Name { get; set; } = string.Empty;
+        public ZipCode? ZipCode { get; set; }
+        public string Place { get; set; } = string.Empty;
+        public string Street { get; set; } = string.Empty;
+
         public List<TypeOfRestaurant>? RestaurantTypes { get; set; }
+        public List<RestaurantTable>? Tables { get; set; }
+        public List<RestaurantOpeningTime>? OpeningTimes { get; set; }
     }
 }

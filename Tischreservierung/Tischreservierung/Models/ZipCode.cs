@@ -9,12 +9,12 @@ namespace Tischreservierung.Models
         public int Id { get; set; }
 
         [Required]
-        public string ZipCodeNr { get; set; } = String.Empty;
+        public string ZipCodeNr { get; set; } = string.Empty;
 
         [Required]
-        public string Location { get; set; } = String.Empty;
+        public string Location { get; set; } = string.Empty;
 
         [Required]
-        public string District { get; set; } = String.Empty; 
+        public string District { get; set; } = string.Empty; 
     }
 }
