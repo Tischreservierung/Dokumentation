@@ -13,7 +13,7 @@ namespace Tischreservierung.Models
         public string Place { get; set; } = string.Empty;
         public string Street { get; set; } = string.Empty;
 
-        public List<TypeOfRestaurant>? RestaurantTypes { get; set; }
+        public List<RestaurantCategory>? RestaurantTypes { get; set; }
         public List<RestaurantTable>? Tables { get; set; }
         public List<RestaurantOpeningTime>? OpeningTimes { get; set; }
     }

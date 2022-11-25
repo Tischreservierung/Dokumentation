@@ -15,7 +15,9 @@ namespace Tischreservierung.Data
         }
 
         public DbSet<Restaurant> Restaurants => Set<Restaurant>();
-        public DbSet<TypeOfRestaurant> TypeOfRestaurants => Set<TypeOfRestaurant>();
+        public DbSet<RestaurantCategory> RestaurantCategory => Set<RestaurantCategory>();
         public DbSet<RestaurantTable> RestaurantTables => Set<RestaurantTable>();
+        public DbSet<RestaurantOpeningTime> RestaurantOpeningTimes => Set<RestaurantOpeningTime>();
+        public DbSet<ZipCode> Zipcodes => Set<ZipCode>();
     }
 }

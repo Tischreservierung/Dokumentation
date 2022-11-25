@@ -21,14 +21,12 @@ namespace Tischreservierung.Controllers
             _context = context;
         }
 
-        // GET: api/Restaurants
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Restaurant>>> GetRestaurant()
+        public async Task<ActionResult<IEnumerable<Restaurant>>> GetRestaurants()
         {
             return await _context.Restaurants.ToListAsync();
         }
 
-        // GET: api/Restaurants/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Restaurant>> GetRestaurant(int id)
         {
@@ -42,8 +40,6 @@ namespace Tischreservierung.Controllers
             return restaurant;
         }
 
-        // PUT: api/Restaurants/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRestaurant(int id, Restaurant restaurant)
         {
@@ -73,8 +69,6 @@ namespace Tischreservierung.Controllers
             return NoContent();
         }
 
-        // POST: api/Restaurants
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Restaurant>> PostRestaurant(Restaurant restaurant)
         {
@@ -84,7 +78,6 @@ namespace Tischreservierung.Controllers
             return CreatedAtAction("GetRestaurant", new { id = restaurant.Id }, restaurant);
         }
 
-        // DELETE: api/Restaurants/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRestaurant(int id)
         {

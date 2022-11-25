@@ -21,15 +21,18 @@ namespace Tischreservierung.Controllers
             _context = context;
         }
 
-        // GET: api/RestaurantTables
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RestaurantTable>>> GetRestaurantTables()
         {
             return await _context.RestaurantTables.ToListAsync();
         }
 
-        // POST: api/RestaurantTables
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpGet("{restaurantId}")]
+        public async Task<ActionResult<IEnumerable<RestaurantTable>>> GetRestaurantTablesByRestaurant(int restaurantId)
+        {
+            return await _context.RestaurantTables.Where(t => t.RestaurantId == restaurantId).ToListAsync();
+        }
+
         [HttpPost]
         public async Task<ActionResult<RestaurantTable>> PostRestaurantTable(RestaurantTable restaurantTable)
         {
@@ -39,7 +42,6 @@ namespace Tischreservierung.Controllers
             return CreatedAtAction("GetRestaurantTable", new { id = restaurantTable.Id }, restaurantTable);
         }
 
-        // DELETE: api/RestaurantTables/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRestaurantTable(int id)
         {
