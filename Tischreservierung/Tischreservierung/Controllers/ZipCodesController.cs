@@ -75,10 +75,5 @@ namespace Tischreservierung.Controllers
 
             return NoContent();
         }
-
-        private bool ZipCodeExists(int id)
-        {
-            return _context.Zipcodes.Any(e => e.Id == id);
-        }
     }
 }
