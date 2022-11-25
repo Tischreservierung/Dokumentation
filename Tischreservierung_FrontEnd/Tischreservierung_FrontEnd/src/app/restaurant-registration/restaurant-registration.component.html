@@ -1,30 +1,25 @@
 <mat-grid-list cols="2" rowHeight="2:1">
   <mat-grid-tile >
     <mat-form-field appearance="outline">
-      <mat-label>Firstname</mat-label>
+      <mat-label>Restaurantname</mat-label>
+      <input (keyup)="onKey($event)" matInput placeholder="Placeholder">
+      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+    </mat-form-field>
+  </mat-grid-tile>
+  <mat-grid-tile >
+    <mat-form-field appearance="outline">
+      <mat-label>Postleitzahl</mat-label>
       <input matInput placeholder="Placeholder">
       <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
     </mat-form-field>
   </mat-grid-tile>
-  <mat-grid-tile>
+  <mat-grid-tile >
     <mat-form-field appearance="outline">
-      <mat-label>Lastname</mat-label>
-      <input matInput placeholder="Placeholder">
-      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    </mat-form-field>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <mat-form-field appearance="outline">
-      <mat-label>E-Mail</mat-label>
-      <input matInput placeholder="Placeholder">
-      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    </mat-form-field>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <mat-form-field appearance="outline">
-      <mat-label>Number</mat-label>
+      <mat-label>Beschreibung</mat-label>
       <input matInput placeholder="Placeholder">
       <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
     </mat-form-field>
   </mat-grid-tile>
 </mat-grid-list>
+
+<button mat-raised-button (click)="request()" >Restaurantanfrage</button>
