@@ -9,13 +9,13 @@ namespace Tischreservierung.Data
 {
     public class OnlineReservationContext : DbContext
     {
-        public OnlineReservationContext (DbContextOptions<OnlineReservationContext> options)
+        public OnlineReservationContext(DbContextOptions<OnlineReservationContext> options)
             : base(options)
         {
         }
 
-        public DbSet<Restaurant> Restaurant { get; set; } = default!;
-
-        public DbSet<TypeOfRestaurant> TypeOfRestaurant { get; set; }
+        public DbSet<Restaurant> Restaurants => Set<Restaurant>();
+        public DbSet<TypeOfRestaurant> TypeOfRestaurants => Set<TypeOfRestaurant>();
+        public DbSet<RestaurantTable> RestaurantTables => Set<RestaurantTable>();
     }
 }

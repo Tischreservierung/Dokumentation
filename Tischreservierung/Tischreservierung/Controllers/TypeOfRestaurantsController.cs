@@ -25,14 +25,14 @@ namespace Tischreservierung.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TypeOfRestaurant>>> GetTypeOfRestaurant()
         {
-            return await _context.TypeOfRestaurant.ToListAsync();
+            return await _context.TypeOfRestaurants.ToListAsync();
         }
 
         // GET: api/TypeOfRestaurants/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TypeOfRestaurant>> GetTypeOfRestaurant(string id)
         {
-            var typeOfRestaurant = await _context.TypeOfRestaurant.FindAsync(id);
+            var typeOfRestaurant = await _context.TypeOfRestaurants.FindAsync(id);
 
             if (typeOfRestaurant == null)
             {
@@ -78,7 +78,7 @@ namespace Tischreservierung.Controllers
         [HttpPost]
         public async Task<ActionResult<TypeOfRestaurant>> PostTypeOfRestaurant(TypeOfRestaurant typeOfRestaurant)
         {
-            _context.TypeOfRestaurant.Add(typeOfRestaurant);
+            _context.TypeOfRestaurants.Add(typeOfRestaurant);
             try
             {
                 await _context.SaveChangesAsync();
@@ -102,13 +102,13 @@ namespace Tischreservierung.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTypeOfRestaurant(string id)
         {
-            var typeOfRestaurant = await _context.TypeOfRestaurant.FindAsync(id);
+            var typeOfRestaurant = await _context.TypeOfRestaurants.FindAsync(id);
             if (typeOfRestaurant == null)
             {
                 return NotFound();
             }
 
-            _context.TypeOfRestaurant.Remove(typeOfRestaurant);
+            _context.TypeOfRestaurants.Remove(typeOfRestaurant);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -116,7 +116,7 @@ namespace Tischreservierung.Controllers
 
         private bool TypeOfRestaurantExists(string id)
         {
-            return _context.TypeOfRestaurant.Any(e => e.RestaurantType == id);
+            return _context.TypeOfRestaurants.Any(e => e.RestaurantType == id);
         }
     }
 }
