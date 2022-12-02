@@ -14,23 +14,25 @@ namespace Tischreservierung.Controllers
     [ApiController]
     public class RestaurantsController : ControllerBase
     {
-        private readonly OnlineReservationContext _context;
+        private readonly IRestaurantRepository _restaurantRepository;
 
-        public RestaurantsController(OnlineReservationContext context)
+        public RestaurantsController(IRestaurantRepository restaurantRepository)
         {
-            _context = context;
+            _restaurantRepository = restaurantRepository;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Restaurant>>> GetRestaurants()
         {
-            return await _context.Restaurants.ToListAsync();
+            var restaurants = await _restaurantRepository.GetRestaurants();
+
+            return Ok(restaurants);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Restaurant>> GetRestaurant(int id)
         {
-            var restaurant = await _context.Restaurants.FindAsync(id);
+            var restaurant = await _restaurantRepository.GetRestaurantById(id);
 
             if (restaurant == null)
             {
@@ -40,40 +42,11 @@ namespace Tischreservierung.Controllers
             return restaurant;
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutRestaurant(int id, Restaurant restaurant)
-        {
-            if (id != restaurant.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(restaurant).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RestaurantExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
         [HttpPost]
         public async Task<ActionResult<Restaurant>> PostRestaurant(Restaurant restaurant)
         {
-            _context.Restaurants.Add(restaurant);
-            await _context.SaveChangesAsync();
+            _restaurantRepository.InsertRestaurant(restaurant);
+            await _restaurantRepository.Save();
 
             return CreatedAtAction("GetRestaurant", new { id = restaurant.Id }, restaurant);
         }
@@ -81,21 +54,16 @@ namespace Tischreservierung.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRestaurant(int id)
         {
-            var restaurant = await _context.Restaurants.FindAsync(id);
+            var restaurant = await _restaurantRepository.GetRestaurantById(id);
             if (restaurant == null)
             {
                 return NotFound();
             }
 
-            _context.Restaurants.Remove(restaurant);
-            await _context.SaveChangesAsync();
+            _restaurantRepository.DeleteRestaurant(restaurant);
+            await _restaurantRepository.Save();
 
             return NoContent();
-        }
-
-        private bool RestaurantExists(int id)
-        {
-            return _context.Restaurants.Any(e => e.Id == id);
         }
     }
 }
