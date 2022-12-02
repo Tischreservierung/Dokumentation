@@ -11,8 +11,8 @@ using Tischreservierung.Data;
 namespace Tischreservierung.Migrations
 {
     [DbContext(typeof(OnlineReservationContext))]
-    [Migration("20221118135613_Initial")]
-    partial class Initial
+    [Migration("20221202083912_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
