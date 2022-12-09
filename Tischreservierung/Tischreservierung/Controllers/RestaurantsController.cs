@@ -25,7 +25,7 @@ namespace Tischreservierung.Controllers
         public async Task<ActionResult<IEnumerable<Restaurant>>> GetRestaurants()
         {
             var restaurants = await _restaurantRepository.GetRestaurants();
-
+            
             return Ok(restaurants);
         }
 
@@ -39,7 +39,7 @@ namespace Tischreservierung.Controllers
                 return NotFound();
             }
 
-            return restaurant;
+            return Ok(restaurant);
         }
 
         [HttpPost]

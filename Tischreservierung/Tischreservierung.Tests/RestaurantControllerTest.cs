@@ -20,10 +20,10 @@ namespace Tischreservierung.Tests
             var result = actionResult.Result as OkObjectResult;
 
             Assert.NotNull(result);
-            Assert.Equal(200, result.StatusCode);
-            Assert.Equal(4, (result.Value as List<Restaurant>).Count());
+            Assert.Equal(200, result!.StatusCode);
+            Assert.Equal(4, ((List<Restaurant>)result.Value!).Count());
 
-            restaurantRepository.Verify(r => r.GetRestaurants(), Times.Once);
+            restaurantRepository.Verify(r => r.GetRestaurants());
             restaurantRepository.VerifyNoOtherCalls();
         }
 
@@ -31,7 +31,7 @@ namespace Tischreservierung.Tests
         public async Task GetRestauranById()
         {
             int restaurantId = 10;
-            Restaurant restaurant = new Restaurant { Id = restaurantId, Name = "R10" };
+            Restaurant restaurant = new() { Id = restaurantId, Name = "R10" };
 
             var restaurantRepository = new Mock<IRestaurantRepository>();
             restaurantRepository.Setup(r => r.GetRestaurantById(restaurantId)).ReturnsAsync(restaurant);
@@ -41,16 +41,55 @@ namespace Tischreservierung.Tests
             var result = actionResult.Result as OkObjectResult;
 
             Assert.NotNull(result);
-            Assert.Equal(200, result.StatusCode);
+            Assert.Equal(200, result!.StatusCode);
             Assert.Equal(restaurant, result.Value as Restaurant);
 
             restaurantRepository.Verify(r => r.GetRestaurantById(It.IsAny<int>()));
             restaurantRepository.VerifyNoOtherCalls();
         }
 
+        [Fact]
+        public async Task PostRestaurant()
+        {
+            int restaurantId = 10;
+            Restaurant restaurant = new() { Id = restaurantId, Name = "R10" };
+
+            var restaurantRepository = new Mock<IRestaurantRepository>();
+            restaurantRepository.Setup(r => r.InsertRestaurant(It.IsAny<Restaurant>()));
+            var restaurantController = new RestaurantsController(restaurantRepository.Object);
+
+            var actionResult = await restaurantController.PostRestaurant(restaurant);
+            var result = actionResult.Result as CreatedAtActionResult;
+
+            Assert.NotNull(result);
+            Assert.Equal(201, result!.StatusCode);
+            Assert.Equal(restaurant, result.Value as Restaurant);
+
+            restaurantRepository.Verify(r => r.InsertRestaurant(restaurant));
+            restaurantRepository.Verify(r => r.Save());
+            restaurantRepository.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task DeleteRestaurant()
+        {
+            var restaurantRepository = new Mock<IRestaurantRepository>();
+
+            restaurantRepository.Setup(r => r.GetRestaurantById(10)).ReturnsAsync(new Restaurant());
+            restaurantRepository.Setup(r => r.DeleteRestaurant(It.IsAny<Restaurant>()));
+            var restaurantController = new RestaurantsController(restaurantRepository.Object);
+
+            var actionResult = await restaurantController.DeleteRestaurant(10);
+
+            restaurantRepository.Verify(r => r.GetRestaurantById(10));
+            restaurantRepository.Verify(r => r.DeleteRestaurant(It.IsAny<Restaurant>()));
+            restaurantRepository.Verify(r => r.Save());
+            restaurantRepository.VerifyNoOtherCalls();
+        }
+
         private static List<Restaurant> GetRestaurantTestData()
         {
-            List<Restaurant> restaurants = new List<Restaurant>();
+            List<Restaurant> restaurants = new();
             restaurants.Add(new Restaurant() { Id = 1, Name = "R1" });
             restaurants.Add(new Restaurant() { Id = 2, Name = "R2" });
             restaurants.Add(new Restaurant() { Id = 3, Name = "R3" });
