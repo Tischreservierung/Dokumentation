@@ -14,17 +14,17 @@ namespace Tischreservierung.Controllers
     [ApiController]
     public class RestaurantsController : ControllerBase
     {
-        private readonly IRestaurantRepository _restaurantRepository;
+        private readonly IRestaurantRepository _repository;
 
-        public RestaurantsController(IRestaurantRepository restaurantRepository)
+        public RestaurantsController(IRestaurantRepository repository)
         {
-            _restaurantRepository = restaurantRepository;
+            _repository = repository;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Restaurant>>> GetRestaurants()
         {
-            var restaurants = await _restaurantRepository.GetRestaurants();
+            var restaurants = await _repository.GetRestaurants();
             
             return Ok(restaurants);
         }
@@ -32,7 +32,7 @@ namespace Tischreservierung.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Restaurant>> GetRestaurant(int id)
         {
-            var restaurant = await _restaurantRepository.GetRestaurantById(id);
+            var restaurant = await _repository.GetRestaurantById(id);
 
             if (restaurant == null)
             {
@@ -45,8 +45,8 @@ namespace Tischreservierung.Controllers
         [HttpPost]
         public async Task<ActionResult<Restaurant>> PostRestaurant(Restaurant restaurant)
         {
-            _restaurantRepository.InsertRestaurant(restaurant);
-            await _restaurantRepository.Save();
+            _repository.InsertRestaurant(restaurant);
+            await _repository.Save();
 
             return CreatedAtAction("GetRestaurant", new { id = restaurant.Id }, restaurant);
         }
@@ -54,14 +54,14 @@ namespace Tischreservierung.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteRestaurant(int id)
         {
-            var restaurant = await _restaurantRepository.GetRestaurantById(id);
+            var restaurant = await _repository.GetRestaurantById(id);
             if (restaurant == null)
             {
                 return NotFound();
             }
 
-            _restaurantRepository.DeleteRestaurant(restaurant);
-            await _restaurantRepository.Save();
+            _repository.DeleteRestaurant(restaurant);
+            await _repository.Save();
 
             return NoContent();
         }
