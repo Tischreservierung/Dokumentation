@@ -6,6 +6,8 @@ builder.Services.AddDbContext<OnlineReservationContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("TischreservierungContext") ?? throw new InvalidOperationException("Connection string 'TischreservierungContext' not found.")));
 
 // Add services to the container.
+builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
+builder.Services.AddScoped<IRestaurantTableRepository, RestaurantTableRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

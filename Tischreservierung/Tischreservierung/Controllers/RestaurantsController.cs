@@ -14,95 +14,56 @@ namespace Tischreservierung.Controllers
     [ApiController]
     public class RestaurantsController : ControllerBase
     {
-        private readonly OnlineReservationContext _context;
+        private readonly IRestaurantRepository _repository;
 
-        public RestaurantsController(OnlineReservationContext context)
+        public RestaurantsController(IRestaurantRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
-        // GET: api/Restaurants
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Restaurant>>> GetRestaurant()
+        public async Task<ActionResult<IEnumerable<Restaurant>>> GetRestaurants()
         {
-            return await _context.Restaurant.ToListAsync();
+            var restaurants = await _repository.GetRestaurants();
+            
+            return Ok(restaurants);
         }
 
-        // GET: api/Restaurants/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Restaurant>> GetRestaurant(int id)
         {
-            var restaurant = await _context.Restaurant.FindAsync(id);
+            var restaurant = await _repository.GetRestaurantById(id);
 
             if (restaurant == null)
             {
                 return NotFound();
             }
 
-            return restaurant;
+            return Ok(restaurant);
         }
 
-        // PUT: api/Restaurants/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutRestaurant(int id, Restaurant restaurant)
-        {
-            if (id != restaurant.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(restaurant).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RestaurantExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Restaurants
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Restaurant>> PostRestaurant(Restaurant restaurant)
         {
-            _context.Restaurant.Add(restaurant);
-            await _context.SaveChangesAsync();
+            _repository.InsertRestaurant(restaurant);
+            await _repository.Save();
 
             return CreatedAtAction("GetRestaurant", new { id = restaurant.Id }, restaurant);
         }
 
-        // DELETE: api/Restaurants/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRestaurant(int id)
+        public async Task<ActionResult> DeleteRestaurant(int id)
         {
-            var restaurant = await _context.Restaurant.FindAsync(id);
+            var restaurant = await _repository.GetRestaurantById(id);
             if (restaurant == null)
             {
                 return NotFound();
             }
 
-            _context.Restaurant.Remove(restaurant);
-            await _context.SaveChangesAsync();
+            _repository.DeleteRestaurant(restaurant);
+            await _repository.Save();
 
             return NoContent();
-        }
-
-        private bool RestaurantExists(int id)
-        {
-            return _context.Restaurant.Any(e => e.Id == id);
         }
     }
 }

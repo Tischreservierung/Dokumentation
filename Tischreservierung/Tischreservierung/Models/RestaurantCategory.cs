@@ -2,10 +2,10 @@
 
 namespace Tischreservierung.Models
 {
-    public class TypeOfRestaurant
+    public class RestaurantCategory
     {
         [Key]
-        public string RestaurantType { get; set; } = string.Empty;
+        public string Category { get; set; } = string.Empty;
         public List<Restaurant>? Restaurants { get; set; }
     }
 }
