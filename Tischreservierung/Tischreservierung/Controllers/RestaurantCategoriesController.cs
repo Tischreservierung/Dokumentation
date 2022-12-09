@@ -14,23 +14,23 @@ namespace Tischreservierung.Controllers
     [ApiController]
     public class RestaurantCategoriesController : ControllerBase
     {
-        private readonly OnlineReservationContext _context;
+        private readonly IRestaurantCategoryRepository _restaurantCategoryRepository;
 
-        public RestaurantCategoriesController(OnlineReservationContext context)
+        public RestaurantCategoriesController(IRestaurantCategoryRepository repository)
         {
-            _context = context;
+            _restaurantCategoryRepository = repository;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RestaurantCategory>>> GetTypeOfRestaurants()
+        public async Task<ActionResult<IEnumerable<RestaurantCategory>>> GetRestaurantCategories()
         {
-            return await _context.RestaurantCategory.ToListAsync();
+            return Ok(await _restaurantCategoryRepository.GetRestaurantCategories());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<RestaurantCategory>> GetRestaurantCategory(string id)
         {
-            var restaurantCategory = await _context.RestaurantCategory.FindAsync(id);
+            var restaurantCategory = await _restaurantCategoryRepository.GetRestaurantCategory(id);
 
             if (restaurantCategory == null)
             {
@@ -43,22 +43,8 @@ namespace Tischreservierung.Controllers
         [HttpPost]
         public async Task<ActionResult<RestaurantCategory>> PostRestaurantCategory(RestaurantCategory restaurantCategory)
         {
-            _context.RestaurantCategory.Add(restaurantCategory);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (RestaurantCategoryExists(restaurantCategory.Category))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            _restaurantCategoryRepository.InsertRestaurantCategory(restaurantCategory);
+            await _restaurantCategoryRepository.Save();
 
             return CreatedAtAction("GetRestaurantCategory", new { id = restaurantCategory.Category }, restaurantCategory);
         }
@@ -66,21 +52,15 @@ namespace Tischreservierung.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRestaurantCategory(string id)
         {
-            var restaurantCategory = await _context.RestaurantCategory.FindAsync(id);
+            var restaurantCategory = await _restaurantCategoryRepository.GetRestaurantCategory(id);
             if (restaurantCategory == null)
             {
                 return NotFound();
             }
 
-            _context.RestaurantCategory.Remove(restaurantCategory);
-            await _context.SaveChangesAsync();
-
+            _restaurantCategoryRepository.DeleteRestaurantCategory(restaurantCategory);
+            await _restaurantCategoryRepository.Save();
             return NoContent();
-        }
-
-        private bool RestaurantCategoryExists(string id)
-        {
-            return _context.RestaurantCategory.Any(e => e.Category == id);
         }
     }
 }
