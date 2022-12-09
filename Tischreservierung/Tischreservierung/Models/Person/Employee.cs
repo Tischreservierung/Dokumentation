@@ -2,15 +2,9 @@
 
 namespace Tischreservierung.Models.Person
 {
-    public class Employee
+    public class Employee : Person
     {
-        public int Id { get; set; }
-
-        public bool isAdmin { get; set; }
-
-        [ForeignKey(nameof(Person_Id))]
-        public int Person_Id { get; set; }
-        public Person? Person { get; set; }
+        public bool IsAdmin { get; set; }
 
         //Referenz Restaurant
     }
