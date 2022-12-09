@@ -17,6 +17,8 @@ namespace Tischreservierung.Tests
             var restaurantController = new RestaurantsController(restaurantRepository.Object);
 
             var actionResult = await restaurantController.GetRestaurants();
+
+            Assert.IsType<OkObjectResult>(actionResult.Result);
             var result = actionResult.Result as OkObjectResult;
 
             Assert.NotNull(result);
@@ -24,6 +26,20 @@ namespace Tischreservierung.Tests
             Assert.Equal(4, ((List<Restaurant>)result.Value!).Count());
 
             restaurantRepository.Verify(r => r.GetRestaurants());
+            restaurantRepository.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task GetRestaurantReturnsNotFound()
+        {
+            var restaurantRepository = new Mock<IRestaurantRepository>();
+            var restaurantController = new RestaurantsController(restaurantRepository.Object);
+
+            var actionResult = await restaurantController.GetRestaurant(10);
+
+            Assert.IsType<NotFoundResult>(actionResult.Result);
+
+            restaurantRepository.Verify(r => r.GetRestaurantById(10));
             restaurantRepository.VerifyNoOtherCalls();
         }
 
@@ -38,6 +54,8 @@ namespace Tischreservierung.Tests
             var restaurantController = new RestaurantsController(restaurantRepository.Object);
 
             var actionResult = await restaurantController.GetRestaurant(restaurantId);
+
+            Assert.IsType<OkObjectResult>(actionResult.Result);
             var result = actionResult.Result as OkObjectResult;
 
             Assert.NotNull(result);
@@ -59,6 +77,8 @@ namespace Tischreservierung.Tests
             var restaurantController = new RestaurantsController(restaurantRepository.Object);
 
             var actionResult = await restaurantController.PostRestaurant(restaurant);
+
+            Assert.IsType<CreatedAtActionResult>(actionResult.Result);
             var result = actionResult.Result as CreatedAtActionResult;
 
             Assert.NotNull(result);
@@ -80,6 +100,8 @@ namespace Tischreservierung.Tests
             var restaurantController = new RestaurantsController(restaurantRepository.Object);
 
             var actionResult = await restaurantController.DeleteRestaurant(10);
+
+            Assert.IsType<NoContentResult>(actionResult);
 
             restaurantRepository.Verify(r => r.GetRestaurantById(10));
             restaurantRepository.Verify(r => r.DeleteRestaurant(It.IsAny<Restaurant>()));

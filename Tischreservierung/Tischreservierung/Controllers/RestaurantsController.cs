@@ -52,7 +52,7 @@ namespace Tischreservierung.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRestaurant(int id)
+        public async Task<ActionResult> DeleteRestaurant(int id)
         {
             var restaurant = await _restaurantRepository.GetRestaurantById(id);
             if (restaurant == null)
