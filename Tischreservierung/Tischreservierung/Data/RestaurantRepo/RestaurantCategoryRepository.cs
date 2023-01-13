@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Tischreservierung.Models;
 
-namespace Tischreservierung.Data
+namespace Tischreservierung.Data.RestaurantRepo
 {
     public class RestaurantCategoryRepository : IRestaurantCategoryRepository
     {

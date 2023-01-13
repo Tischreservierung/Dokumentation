@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Tischreservierung.Data;
+using Tischreservierung.Data.RestaurantRepo;
 using Tischreservierung.Models;
 
 namespace Tischreservierung.Controllers
@@ -14,51 +14,68 @@ namespace Tischreservierung.Controllers
     [ApiController]
     public class RestaurantOpeningTimesController : ControllerBase
     {
-        private readonly OnlineReservationContext _context;
+        private readonly IOpeningTimeRepository _repository;
 
-        public RestaurantOpeningTimesController(OnlineReservationContext context)
+        public RestaurantOpeningTimesController(IOpeningTimeRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<RestaurantOpeningTime>>> GetRestaurantOpeningTime()
-        {
-            return await _context.RestaurantOpeningTimes.ToListAsync();
-        }
+       
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<RestaurantOpeningTime>> GetRestaurantOpeningTime(int id)
+        [HttpGet("restaurant")]
+        public async Task<ActionResult<IEnumerable<RestaurantOpeningTime>>> GetRestaurantOpeningTimeForRestaurant(int id)
         {
-            var restaurantOpeningTime = await _context.RestaurantOpeningTimes.FindAsync(id);
+            var restaurantOpeningTime = await _repository.GetOpeningTimesByRestaurant(id);
 
             if (restaurantOpeningTime == null)
             {
                 return NotFound();
             }
 
-            return restaurantOpeningTime;
+            return Ok(restaurantOpeningTime);
         }
 
-        [HttpGet("byRestaurant")]
-        public async Task<ActionResult<IEnumerable<RestaurantOpeningTime>>> GetRestaurantOpeningTimeByRestaurant(int restaurantId)
+        [HttpGet("day")]
+        public async Task<ActionResult<IEnumerable<RestaurantOpeningTime>>> GetRestaurantOpeningTimeForDay(int day)
         {
-            return await _context.RestaurantOpeningTimes.Where(o => o.RestaurantId == restaurantId).ToListAsync();
+            var restaurantOpeningTime = await _repository.GetOpeningTimesByDay(day);
+
+            if (restaurantOpeningTime == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(restaurantOpeningTime);
         }
+
+        [HttpGet("restaurantDay")]
+        public async Task<ActionResult<IEnumerable<RestaurantOpeningTime>>> GetRestaurantOpeningTimeForRestaurantAndDay(int id,int day)
+        {
+            var restaurantOpeningTime = await _repository.GetOpeningTimesByDayAndRestaurant(id, day);
+
+            if (restaurantOpeningTime == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(restaurantOpeningTime);
+        }
+
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRestaurantOpeningTime(int id, RestaurantOpeningTime restaurantOpeningTime)
+        public async Task<IActionResult> PutRestaurantOpeningTime(int id,RestaurantOpeningTime openingTime)
         {
-            if (id != restaurantOpeningTime.Id)
+            if (id != openingTime.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(restaurantOpeningTime).State = EntityState.Modified;
+            _repository.UpdateOpeningTime(openingTime);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _repository.Save();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -78,8 +95,8 @@ namespace Tischreservierung.Controllers
         [HttpPost]
         public async Task<ActionResult<RestaurantOpeningTime>> PostRestaurantOpeningTime(RestaurantOpeningTime restaurantOpeningTime)
         {
-            _context.RestaurantOpeningTimes.Add(restaurantOpeningTime);
-            await _context.SaveChangesAsync();
+            _repository.InsertRestaurantOpeningTime(restaurantOpeningTime);
+            await _repository.Save();
 
             return CreatedAtAction("GetRestaurantOpeningTime", new { id = restaurantOpeningTime.Id }, restaurantOpeningTime);
         }
@@ -87,21 +104,21 @@ namespace Tischreservierung.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRestaurantOpeningTime(int id)
         {
-            var restaurantOpeningTime = await _context.RestaurantOpeningTimes.FindAsync(id);
+            var restaurantOpeningTime = await _repository.GetOpeningTime(id);
             if (restaurantOpeningTime == null)
             {
                 return NotFound();
             }
 
-            _context.RestaurantOpeningTimes.Remove(restaurantOpeningTime);
-            await _context.SaveChangesAsync();
+            _repository.DeleteOpeningTime(restaurantOpeningTime);
+            await _repository.Save();
 
             return NoContent();
         }
 
         private bool RestaurantOpeningTimeExists(int id)
         {
-            return _context.RestaurantOpeningTimes.Any(e => e.Id == id);
+            return _repository.GetOpeningTime(id) == null ? false : true;
         }
     }
 }

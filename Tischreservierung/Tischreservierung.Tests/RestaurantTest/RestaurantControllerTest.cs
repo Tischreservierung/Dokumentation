@@ -2,10 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Net;
 using Tischreservierung.Controllers;
-using Tischreservierung.Data;
+using Tischreservierung.Data.RestaurantRepo;
 using Tischreservierung.Models;
 
-namespace Tischreservierung.Tests
+namespace Tischreservierung.Tests.RestaurantTest
 {
     public class RestaurantControllerTest
     {

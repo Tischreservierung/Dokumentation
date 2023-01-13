@@ -88,8 +88,8 @@ namespace Tischreservierung.Migrations
                     b.Property<DateTime>("ClosingTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("Day")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("Day")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("OpeningTime")
                         .HasColumnType("datetime2");

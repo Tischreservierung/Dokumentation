@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Tischreservierung.Data;
+using Tischreservierung.Data.RestaurantRepo;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<OnlineReservationContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("TischreservierungContext") ?? throw new InvalidOperationException("Connection string 'TischreservierungContext' not found.")));
@@ -8,6 +10,9 @@ builder.Services.AddDbContext<OnlineReservationContext>(options =>
 // Add services to the container.
 builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
 builder.Services.AddScoped<IRestaurantTableRepository, RestaurantTableRepository>();
+builder.Services.AddScoped<IOpeningTimeRepository, OpeningTimeRepository>();
+builder.Services.AddScoped<IRestaurantCategoryRepository, RestaurantCategoryRepository>();
+builder.Services.AddScoped<IZipCodeRepository, ZipCodeRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

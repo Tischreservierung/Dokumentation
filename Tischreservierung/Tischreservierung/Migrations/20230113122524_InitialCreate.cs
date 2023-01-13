@@ -62,7 +62,7 @@ namespace Tischreservierung.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Day = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Day = table.Column<int>(type: "int", nullable: false),
                     OpeningTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ClosingTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RestaurantId = table.Column<int>(type: "int", nullable: false)

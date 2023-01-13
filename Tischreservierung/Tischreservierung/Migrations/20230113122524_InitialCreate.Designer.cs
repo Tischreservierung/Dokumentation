@@ -12,7 +12,7 @@ using Tischreservierung.Data;
 namespace Tischreservierung.Migrations
 {
     [DbContext(typeof(OnlineReservationContext))]
-    [Migration("20221130101005_InitialCreate")]
+    [Migration("20230113122524_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -90,8 +90,8 @@ namespace Tischreservierung.Migrations
                     b.Property<DateTime>("ClosingTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("Day")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("Day")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("OpeningTime")
                         .HasColumnType("datetime2");
