@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tischreservierung.Controllers;
-using Tischreservierung.Data;
+using Tischreservierung.Data.RestaurantRepo;
 using Tischreservierung.Models;
 
-namespace Tischreservierung.Tests
+namespace Tischreservierung.Tests.RestaurantTest
 {
     public class RestaurantCategoryControllerTest
     {

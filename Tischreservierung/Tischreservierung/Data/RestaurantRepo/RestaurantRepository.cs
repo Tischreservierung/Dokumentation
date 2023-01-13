@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Tischreservierung.Models;
 
-namespace Tischreservierung.Data
+namespace Tischreservierung.Data.RestaurantRepo
 {
     public class RestaurantRepository : IRestaurantRepository
     {
@@ -11,7 +11,7 @@ namespace Tischreservierung.Data
         {
             _context = context;
         }
-        
+
         public async Task<IEnumerable<Restaurant>> GetRestaurants()
         {
             return await _context.Restaurants.ToListAsync();

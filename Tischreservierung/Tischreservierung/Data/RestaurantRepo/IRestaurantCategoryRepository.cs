@@ -1,6 +1,6 @@
 ﻿using Tischreservierung.Models;
 
-namespace Tischreservierung.Data
+namespace Tischreservierung.Data.RestaurantRepo
 {
     public interface IRestaurantCategoryRepository
     {

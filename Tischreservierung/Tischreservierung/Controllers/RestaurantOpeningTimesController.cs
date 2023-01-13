@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Tischreservierung.Data;
+using Tischreservierung.Data.RestaurantRepo;
 using Tischreservierung.Models;
 
 namespace Tischreservierung.Controllers
@@ -50,7 +50,7 @@ namespace Tischreservierung.Controllers
         }
 
         [HttpGet("restaurantDay")]
-        public async Task<ActionResult<IEnumerable<RestaurantOpeningTime>>> GetRestaurantOpeningTimeForDay(int id,int day)
+        public async Task<ActionResult<IEnumerable<RestaurantOpeningTime>>> GetRestaurantOpeningTimeForRestaurantAndDay(int id,int day)
         {
             var restaurantOpeningTime = await _repository.GetOpeningTimesByDayAndRestaurant(id, day);
 

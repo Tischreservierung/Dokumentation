@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Tischreservierung.Data;
+using Tischreservierung.Data.RestaurantRepo;
 using Tischreservierung.Models;
 
 namespace Tischreservierung.Controllers
