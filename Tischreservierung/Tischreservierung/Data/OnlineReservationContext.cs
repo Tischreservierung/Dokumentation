@@ -1,3 +1,6 @@
+﻿using Microsoft.EntityFrameworkCore;
+using System.Security.Policy;
+using Tischreservierung.Models.Person;
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +15,12 @@ namespace Tischreservierung.Data
         public OnlineReservationContext(DbContextOptions<OnlineReservationContext> options)
             : base(options)
         {
+
         }
+
+        public DbSet<Customer> Customers => Set<Customer>();
+
+        public DbSet<Employee> Employees => Set<Employee>();
 
         public DbSet<Restaurant> Restaurants => Set<Restaurant>();
         public DbSet<RestaurantCategory> RestaurantCategory => Set<RestaurantCategory>();

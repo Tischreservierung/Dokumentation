@@ -8,6 +8,7 @@ builder.Services.AddDbContext<OnlineReservationContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("TischreservierungContext") ?? throw new InvalidOperationException("Connection string 'TischreservierungContext' not found.")));
 
 // Add services to the container.
+//Services.AddScopped
 builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
 builder.Services.AddScoped<IRestaurantTableRepository, RestaurantTableRepository>();
 builder.Services.AddScoped<IOpeningTimeRepository, OpeningTimeRepository>();
