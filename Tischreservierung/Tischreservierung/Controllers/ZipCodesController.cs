@@ -14,66 +14,45 @@ namespace Tischreservierung.Controllers
     [ApiController]
     public class ZipCodesController : ControllerBase
     {
-        private readonly OnlineReservationContext _context;
+        private readonly IZipCodeRepository _repository;
 
-        public ZipCodesController(OnlineReservationContext context)
+        public ZipCodesController(IZipCodeRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ZipCode>>> GetZipcodes()
         {
-            return await _context.Zipcodes.ToListAsync();
+            return Ok(await _repository.GetZipCodes());
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ZipCode>> GetZipCode(int id)
+        [HttpGet("{zipcode}")]
+        public async Task<ActionResult<IEnumerable<ZipCode>>> GetZipCodesByZipCode(string zipcode)
         {
-            var zipCode = await _context.Zipcodes.FindAsync(id);
+            var zipCode = await _repository.GetByZipCode(zipcode);
 
             if (zipCode == null)
             {
                 return NotFound();
             }
 
-            return zipCode;
+            return Ok(zipCode);
         }
 
         [HttpGet("byLocation")]
         public async Task<ActionResult<IEnumerable<ZipCode>>> GetZipcodesByLocation(string location)
         {
-            return await _context.Zipcodes.Where(z => z.Location == location).ToListAsync();
+            return Ok( await _repository.GetByLocation(location));
+
         }
 
         [HttpGet("byDistrict")]
         public async Task<ActionResult<IEnumerable<ZipCode>>> GetZipcodesByDistrict(string district)
         {
-            return await _context.Zipcodes.Where(z => z.District == district).ToListAsync();
+            return Ok(await _repository.GetByDistrict(district));
+
         }
-
-        [HttpPost]
-        public async Task<ActionResult<ZipCode>> PostZipCode(ZipCode zipCode)
-        {
-            _context.Zipcodes.Add(zipCode);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetZipCode", new { id = zipCode.Id }, zipCode);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteZipCode(int id)
-        {
-            var zipCode = await _context.Zipcodes.FindAsync(id);
-            if (zipCode == null)
-            {
-                return NotFound();
-            }
-
-            _context.Zipcodes.Remove(zipCode);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
+       
     }
 }

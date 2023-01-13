@@ -25,7 +25,7 @@ namespace Tischreservierung.Tests
 
             Assert.NotNull(result);
             Assert.Equal(200, result!.StatusCode);
-            Assert.Equal(3, (result.Value! as List<RestaurantCategory>).Count());
+            Assert.Equal(3, ((List<RestaurantCategory>)result.Value!).Count());
 
             restaurantCategoryRepository.Verify(r => r.GetRestaurantCategories(), Times.Once);
             restaurantCategoryRepository.VerifyNoOtherCalls();

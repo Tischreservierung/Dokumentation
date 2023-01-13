@@ -8,6 +8,9 @@ builder.Services.AddDbContext<OnlineReservationContext>(options =>
 // Add services to the container.
 builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
 builder.Services.AddScoped<IRestaurantTableRepository, RestaurantTableRepository>();
+builder.Services.AddScoped<IOpeningTimeRepository, OpeningTimeRepository>();
+builder.Services.AddScoped<IRestaurantCategoryRepository, RestaurantCategoryRepository>();
+builder.Services.AddScoped<IZipCodeRepository, ZipCodeRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
