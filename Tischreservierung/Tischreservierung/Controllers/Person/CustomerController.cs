@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using Tischreservierung.Data;
+using Tischreservierung.Data.Person;
+using Tischreservierung.Models;
 using Tischreservierung.Models.Person;
 
-namespace Tischreservierung.Controller
+namespace Tischreservierung.Controllers.Person
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -17,7 +18,8 @@ namespace Tischreservierung.Controller
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers() {
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
+        {
             return Ok(await _customerRepository.GetCustomers());
         }
 
@@ -28,7 +30,7 @@ namespace Tischreservierung.Controller
         }
 
         [HttpDelete("{Mail}")]
-        public async Task<ActionResult> DeleteCustomer (string mail)
+        public async Task<ActionResult> DeleteCustomer(string mail)
         {
             var customer = await _customerRepository.GetCustomerByEMail(mail);
             if (customer == null)
@@ -41,18 +43,13 @@ namespace Tischreservierung.Controller
             return NoContent();
         }
 
-        [HttpPost("{Mail}")]
-        public async Task<ActionResult> PostCustomer (string mail)
+        [HttpPost("{data}")]
+        public async Task<ActionResult> PostCustomer(Customer data)
         {
-            var customer = await _customerRepository.GetCustomerByEMail(mail);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            _customerRepository.SetCustomer(customer);
+            _customerRepository.SetCustomer(data);
             await _customerRepository.Save();
-            return NoContent();
+
+            return CreatedAtAction("GetCustomerByMail", new { mail = data.EMail }, data); ;
         }
     }
 }

@@ -20,6 +20,8 @@ namespace Tischreservierung.Data
 
         public DbSet<Customer> Customers => Set<Customer>();
 
+        public DbSet<Employee> Employees => Set<Employee>();
+
         public DbSet<Restaurant> Restaurants => Set<Restaurant>();
         public DbSet<RestaurantCategory> RestaurantCategory => Set<RestaurantCategory>();
         public DbSet<RestaurantTable> RestaurantTables => Set<RestaurantTable>();

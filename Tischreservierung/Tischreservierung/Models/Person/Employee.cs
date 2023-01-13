@@ -6,6 +6,8 @@ namespace Tischreservierung.Models.Person
     {
         public bool IsAdmin { get; set; }
 
-        //Referenz Restaurant
+        [ForeignKey(nameof(RestaurantId))]
+        public Restaurant? Restaurant { get; set; }
+        public int RestaurantId { get; set; }
     }
 }

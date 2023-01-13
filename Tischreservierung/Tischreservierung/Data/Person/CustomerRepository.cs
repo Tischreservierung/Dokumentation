@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Tischreservierung.Models.Person;
 
-namespace Tischreservierung.Data
+namespace Tischreservierung.Data.Person
 {
     public class CustomerRepository : ICustomerRepository
     {
