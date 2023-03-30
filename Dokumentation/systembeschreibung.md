@@ -22,27 +22,6 @@ Anschließend wird man entweder zur Kunden -oder Restaurantseite weitergeleitet.
 Hier kommt man zum Restaurantfilter, wo man nach Restaurant mit mehreren Optionen filtern kann (Name oder Bezirk, Ort, Datum, Uhrzeit, Essen). Hierbei wird der Name, Beschreibung und ein Bild des Restaurants angezeigt. Wenn man anschließend auf ein Restaurant klickt, kommt man zu einer genaueren Übersicht vom Restaurant (Bilder, Öffnungszeiten, Beschreibung, Arten des Essens (Italienisch, vegan, ...)). In dieser Ansicht kann man dann auch direkt reservieren.   
 Man kann sich aber auch die eigenen Reservierungen anschauen und stornieren falls gewünscht. 
 
-@startuml  
-actor Kunde as k
-actor Restaurant as r
-package Kundenoptionen {
-k --> (Reservierungsübersicht)
-k -> (Filter)   
-(Filter) -> (Detaillierte Restaurantansicht)
-(Detaillierte Restaurantansicht) --> (Reservieren)
-(Reservierungsübersicht) --> (Detaillierte Restaurantansicht)
-}
-
-package Restaurantoptionen {
-    r -> (Restaurantbearbeitung)
-    r -> (Eingehende Reservierungen)
-    (Eingehende Reservierungen) --> (Reservierung verweigern)
-    r ---> (Manuelle Reservierung)
-}
-
-(Reservieren) --> (Eingehende Reservierungen)
-@enduml
-
 ### Restaurant - Mitarbeiter / Besitzer
 Hier wird man zur Übersicht vom eigenen Restaurant weitergeleitet. Dabei kann man reservierungen von Kunden anschauen, aber auch Daten vom Restaurant ändern. 
 
@@ -55,19 +34,26 @@ graph TD
     E[Reservierungsübersicht]
     F[Restaurantbearbeitung]
     G[Detailierte Restaurantansicht]
-    H[Reservierung]
+    H[Reservieren]
     I[Reservierungsübersicht]
     J[Details zur Reservierung]
     K[Reservierung stornieren]
+    L[Reservierung verweigern]
+    M[Manuelle Reservierung]
 
     A --> B
     A --> C
-    B --> E
     B --> F
+    B --> E
     C --> D
     D --> G
     G --> H
+    H --Restaurant erhält Reservierung--> E
+    E --> L
+    E --> M
+    H --> I
     C --> I
+    I --> G
     E --> J
     I --> K
 ```
@@ -78,3 +64,30 @@ Hierbei werden die verschiedenen gegebenen Filter genommen und alle angewendet, 
 
 ### Reservierung
 Bei der Reservierung muss man Datum mit Uhrzeit und Personenanzahl eingeben. Falls die Personenanzahl zu groß ist für einen Tisch, kann man eine Reservierung mit mehreren Tischen anfragen, diese muss dann aber vom Restaurant bestätigt werden. (Reservierung mit mehreren Tischen ist nur eine Erweiterung)
+
+Zustände bei der Reservierung:
+
+```mermaid
+stateDiagram-v2
+state "Restaurantansicht" as r
+state "Reservierungsdaten eingeben" as rv
+state "Reservierung tätigen" as rt
+state "Reservierung erfolgreich" as re
+state "Reservierung bestätigen" as rb
+state if <<choice>>
+state if_b <<choice>>
+state if_s <<choice>>
+[*]--> r
+r --> rv
+rv --> rt
+rt --> if
+if --> re : Keine Bestätigung erforderlich
+if --> rb : Bestätigung erforderlich
+rb --> if_b
+if_b --> re : Reservierunge bestätigt
+if_b --> [*] : Reservierung verweigert
+re --> if_s
+if_s --> [*] : Reservierung storniert
+if_s --> [*] : Restaurant besucht
+if_s --> [*] : Nicht erschienen
+```
