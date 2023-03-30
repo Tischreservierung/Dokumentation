@@ -22,6 +22,27 @@ Anschließend wird man entweder zur Kunden -oder Restaurantseite weitergeleitet.
 Hier kommt man zum Restaurantfilter, wo man nach Restaurant mit mehreren Optionen filtern kann (Name oder Bezirk, Ort, Datum, Uhrzeit, Essen). Hierbei wird der Name, Beschreibung und ein Bild des Restaurants angezeigt. Wenn man anschließend auf ein Restaurant klickt, kommt man zu einer genaueren Übersicht vom Restaurant (Bilder, Öffnungszeiten, Beschreibung, Arten des Essens (Italienisch, vegan, ...)). In dieser Ansicht kann man dann auch direkt reservieren.   
 Man kann sich aber auch die eigenen Reservierungen anschauen und stornieren falls gewünscht. 
 
+@startuml  
+actor Kunde as k
+actor Restaurant as r
+package Kundenoptionen {
+k --> (Reservierungsübersicht)
+k -> (Filter)   
+(Filter) -> (Detaillierte Restaurantansicht)
+(Detaillierte Restaurantansicht) --> (Reservieren)
+(Reservierungsübersicht) --> (Detaillierte Restaurantansicht)
+}
+
+package Restaurantoptionen {
+    r -> (Restaurantbearbeitung)
+    r -> (Eingehende Reservierungen)
+    (Eingehende Reservierungen) --> (Reservierung verweigern)
+    r ---> (Manuelle Reservierung)
+}
+
+(Reservieren) --> (Eingehende Reservierungen)
+@enduml
+
 ### Restaurant - Mitarbeiter / Besitzer
 Hier wird man zur Übersicht vom eigenen Restaurant weitergeleitet. Dabei kann man reservierungen von Kunden anschauen, aber auch Daten vom Restaurant ändern. 
 
