@@ -3,7 +3,7 @@
 ## Technologien
 
 ### Angular
-Angular wird als Frontend verwendent. Dabei greift es auf die REST-Endpoints zu und ist für die gesammte Nutzerinteraktion zuständig.
+Angular wird als Frontend verwendet. Dabei greift es auf die REST-Endpoints zu und ist für die gesammte Nutzerinteraktion zuständig.
 
 ### ASP.NET Core
 Hier sind die REST-Endpoints implementiert bei dennen Daten aus der Datenbank geliefert werden oder neue Angelegt werden.
