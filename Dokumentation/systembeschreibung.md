@@ -1,9 +1,10 @@
-# Systembeschreibung
+# Systembeschreibung - Tischreservierung
 Autor: Sebastian Witzeneder  
 Version: 1.1
 
 ## Inhaltsverzeichnis
 - [Technologien](#technologien)
+- [ERD](#erd)
 - [Funktionalität](#funktionalität)
 - [Wichtigsten Funktionen](#wichtigsten-funktionen)
 
@@ -31,6 +32,89 @@ C4Context
     Rel(angular,api, "Anfragen")
     Rel(api,database,"Lesen und schreiben")
     
+```
+
+## ERD
+
+```mermaid
+erDiagram
+
+    ZipCode ||--o{ Restaurant : in
+    Person  ||--o| Customer : ist
+    Person ||--o| Employee : ist
+    Category }o--|| RestaurantCategory : hat
+    Restaurant }o--|| RestaurantCategory : von
+    Employee }|--|| Restaurant : "arbeitet in"
+    Restaurant ||--o{ RestaurantOpeningTime : "öffnet um"
+    Reservation ||--|{ RestaurantTable : "hat"
+    Reservation }o--||  Restaurant : "hat"
+    Customer ||--o{ Reservation : reserviert
+    
+    
+    Person  {
+        int id
+        string firstName
+        string lastName
+        string password
+        string email
+    }
+    Customer {
+        string customerNumber
+    }
+    Employee {
+        bool isAdmin
+        int restaurantId
+    }
+    Category {
+        int id
+        string name
+    }
+    Reservation {
+        int id
+        DateTime reservationDay
+        DateTime startTime
+        DateTime endTime
+        int customerId
+        int restaurantTableId
+        int restaurantId
+    }
+    
+    Restaurant {
+        int id
+        string name
+        int zipCodeId
+        string address
+        string streetNr
+    }
+    
+    RestaurantOpeningTime {
+        int id
+        int day
+        DateTime openingTime
+        DateTime closingTime
+        int restaurantId
+    }
+    
+    RestaurantTable {
+        int id
+        int seatPlaces
+        int restaurantId
+    }
+    
+    ZipCode {
+        int id
+        string zipCodeNr
+        string location
+        string district
+    }
+    
+    RestaurantCategory {
+        int categoryId
+        int restaurantId
+    }
+    
+
+
 ```
 
 ## Funktionalität
