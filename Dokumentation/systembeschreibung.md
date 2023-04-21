@@ -25,8 +25,8 @@ Dabei gibt es 2 Punkte:
 C4Context
     Container_Boundary(c1, "Leocloud") {
         Container(angular, "Frontend", "Angular", "Nutzerinteraktion")
-        ContainerDb_Ext(api, "API", "ASP.NET", "REST-Endpoints")
-        ContainerDb(database, "Database", "SQL-Server", "Speichert alle Nutzer, Restaurants, Reservierungen, ...")
+        Container(api, "API", "ASP.NET", "REST-Endpoints")
+        Container(database, "Database", "SQL-Server", "Speichert alle Nutzer, Restaurants, Reservierungen, ...")
     }
     Rel(angular,api, "Anfragen")
     Rel(api,database,"Lesen und schreiben")
