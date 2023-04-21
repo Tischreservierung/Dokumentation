@@ -1,4 +1,11 @@
 # Systembeschreibung
+Autor: Sebastian Witzeneder  
+Version: 1.1
+
+## Inhaltsverzeichnis
+- [Technologien](#technologien)
+- [Funktionalität](#funktionalität)
+- [Wichtigsten Funktionen](#wichtigsten-funktionen)
 
 ## Technologien
 
@@ -13,6 +20,18 @@ Hier befindet sich unser Projekt, welches automatisch bei einem Merge auf dem Ma
 Dabei gibt es 2 Punkte:  
 * Unser Angular-Projekt (https://student.cloud.htl-leonding.ac.at/s.raaber/onlinereservation/)
 * Und das Backend mit RestEndpoints hierbei ist die Datenbank inkludiert
+
+```mermaid
+C4Context
+    Container_Boundary(c1, "Leocloud") {
+        Container(angular, "Frontend", "Angular", "Nutzerinteraktion")
+        ContainerDb_Ext(api, "API", "ASP.NET", "REST-Endpoints")
+        ContainerDb(database, "Database", "SQL-Server", "Speichert alle Nutzer, Restaurants, Reservierungen, ...")
+    }
+    Rel(angular,api, "Anfragen")
+    Rel(api,database,"Lesen und schreiben")
+    
+```
 
 ## Funktionalität
 Am Anfang befindet man sich auf einer Login-Seite, wo man sich Anmelden kann oder die Option hat ein neues Konto / Restaurant zu erstellen.   
@@ -65,7 +84,7 @@ Hierbei werden die verschiedenen gegebenen Filter genommen und alle angewendet, 
 ### Reservierung
 Bei der Reservierung muss man Datum mit Uhrzeit und Personenanzahl eingeben. Falls die Personenanzahl zu groß ist für einen Tisch, kann man eine Reservierung mit mehreren Tischen anfragen, diese muss dann aber vom Restaurant bestätigt werden. (Reservierung mit mehreren Tischen ist nur eine Erweiterung)
 
-Zustände bei der Reservierung:
+Ablauf bei der Reservierung:
 
 ```mermaid
 stateDiagram-v2
