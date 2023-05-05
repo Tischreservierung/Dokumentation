@@ -10,6 +10,8 @@ Version: 1.1
 
 ## Technologien
 
+![](Technologie-Diagram.png)
+
 ### Angular
 Angular wird als Frontend verwendet. Dabei greift es auf die REST-Endpoints zu und ist für die gesamte Nutzerinteraktion zuständig.
 
