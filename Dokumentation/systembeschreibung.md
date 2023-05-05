@@ -4,6 +4,7 @@ Version: 1.1
 
 ## Inhaltsverzeichnis
 - [Technologien](#technologien)
+- [Deployment](#deployment)
 - [ERD](#erd)
 - [Funktionalität](#funktionalität)
 - [Wichtigsten Funktionen](#wichtigsten-funktionen)
@@ -36,6 +37,22 @@ C4Context
     
 ```
 
+## Deployment
+
+```mermaid
+flowchart TD
+    id1["Bei Github container registry (ghcr) eingelogt"]
+    id2[Image vom Backend / Frontend bauen]
+    id3[Auf ghcr hochladen]
+    id4[Auf der LeoCloud eingelogen]
+    id5[Auf der LeoCloud deployen]
+
+    id1 --> id2
+    id2 --> id3
+    id3 --> id4
+    id4 --> id5
+```
+
 ## ERD
 
 ```mermaid
@@ -44,13 +61,18 @@ erDiagram
     ZipCode ||--o{ Restaurant : in
     Person  ||--o| Customer : ist
     Person ||--o| Employee : ist
-    Category }o--|| RestaurantCategory : hat
-    Restaurant }o--|| RestaurantCategory : von
     Employee }|--|| Restaurant : "arbeitet in"
+    Restaurant }o--|| RestaurantTable : von
+
     Restaurant ||--o{ RestaurantOpeningTime : "öffnet um"
     Reservation ||--|{ RestaurantTable : "hat"
     Reservation }o--||  Restaurant : "hat"
     Customer ||--o{ Reservation : reserviert
+    Category }o--|| RestaurantCategory : hat
+    Restaurant }o--|| RestaurantCategory : von
+
+
+
     
     
     Person  {
